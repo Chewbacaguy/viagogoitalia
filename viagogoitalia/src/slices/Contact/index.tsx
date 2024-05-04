@@ -1,3 +1,4 @@
+"use client";
 import Bounded from "@/components/Bounded";
 import ButtonLink from "@/components/ButtonLink";
 import { PrismicNextImage, PrismicNextLink } from "@prismicio/next";
@@ -6,64 +7,60 @@ import { Content, isFilled } from "@prismicio/client";
 import clsx from "clsx";
 import { PiArrowsClockwise, PiGear, PiPhoneCallFill } from "react-icons/pi";
 import AnimatedContent from "./AnimatedContent";
-//import React, { useState, useEffect, ChangeEvent, FocusEvent } from 'react';
-// import { useClient } from 'next/data-client';
+import React, { useState, useEffect} from 'react';
+import emailjs from '@emailjs/browser'
+import { createClient } from "@/prismicio";
 
-// const icons = {
-//   phone: <PiPhoneCallFill/>,
-//   gear: <PiGear />,
-//   cycle: <PiArrowsClockwise />,
-  
-// };
-
-
-
-/**
- * Props for `Contact`.
- */
 export type ContactProps = SliceComponentProps<Content.ContactSlice>;
 
-/**
- * Component for "Contact" Slices.
- */
-
 const Contact = ({ slice }: ContactProps): JSX.Element => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    description: "",
+  });
 
-  // const [nomeValue, setNomeValue] = useState('');
-  // const [emailValue, setEmailValue] = useState('');
-  // const [messageValue, setMessageValue] = useState('');
-
-  // const handleNomeChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   setNomeValue(event.target.value);
-  // };
-
-  // const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   setEmailValue(event.target.value);
-  // };
-
-  // const handleMessageChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-  //   setMessageValue(event.target.value);
-  // };
-
-  // const handleFocus = (id: string) => {
-  //   const label = document.querySelector(`label[for="${id}"]`);
-  //   const input = document.getElementById(id) as HTMLInputElement | null;
-  //   if (input && label) {
-  //     if (input.value === '') {
-  //       label.classList.add('top-0', 'left-3', 'mb-10', 'text-white', 'pt-[0.37rem]', 'peer-focus:-translate-y-[1.5rem]', 'peer-focus:scale-[0.8]', 'peer-data-[te-input-state-active]:-translate-y-[0.9rem]', 'peer-data-[te-input-state-active]:scale-[0.8]');
-  //     }
-  //   }
-  // };
+  const [emailSent, setEmailSent] = useState(false);
+  const [message, setMessage] = useState("");
   
-  // const handleBlur = (id: string) => {
-  //   const label = document.querySelector(`label[for="${id}"]`);
-  //   const input = document.getElementById(id) as HTMLInputElement | null;
-  //   if (input && label) {
-  //     if (input.value === '') {
-  //       label.classList.remove('top-0', 'left-3', 'mb-10', 'text-white', 'pt-[0.37rem]', 'peer-focus:-translate-y-[1.5rem]', 'peer-focus:scale-[0.8]', 'peer-data-[te-input-state-active]:-translate-y-[0.9rem]', 'peer-data-[te-input-state-active]:scale-[0.8]');
-  //     }
-  //   }
-  // };
+  useEffect(() => {
+    // This effect will only run once after the initial render
+    // You can put any initialization logic here if needed
+    console.log('Component mounted');
+    return () => {
+      // This cleanup function will be called when the component unmounts
+      console.log('Component unmounted');
+    };
+  }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    emailjs
+      .send("viagogoitalia", "viagogo_italia", formData, "5irujdBHzvTm6UJZp")
+      .then(
+        (result) => {
+          console.log(result.text);
+          setEmailSent(true);
+          setMessage("Your email was sent successfully!");
+          setFormData({
+            name: "",
+            email: "",
+            description: "",
+          });
+        },
+        (error) => {
+          console.log(error.text);
+          console.log("it aint working yet")
+          setEmailSent(false);
+          setMessage("Failed to send email. Please try again.");
+        }
+      );
+  };
 
   return (
 
@@ -83,12 +80,13 @@ const Contact = ({ slice }: ContactProps): JSX.Element => {
         className="block rounded-lg bg-white/10 px-6 py-12 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]  md:py-16 md:px-12 -mt-[100px] backdrop-blur-[30px] border border-white/20">
         <div className="flex flex-wrap">
           <div className="mb-12 w-full shrink-0 grow-0 basis-auto md:px-3 lg:mb-0 lg:w-5/12 lg:px-6"> 
-          <form>
+          <form onSubmit={sendEmail}>
           <div className="relative mb-6" data-te-input-wrapper-init>
-            <input type="email"
+            <input type="text"
                   className="peer block min-h-[auto] w-full rounded border-2 bg-transparent py-[0.32rem] px-3 leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-0 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-0 motion-reduce:transition-none "
                   id="exampleInput91"
-                  placeholder=" " />
+                  placeholder=" " 
+                  onChange={handleChange} name="name"/>
             <label
               className="pointer-events-none absolute top-0 left-3 mb-0 max-w-[90%] origin-[0] truncate pt-[0.32rem] leading-[1.6] text-white opacity-0 transition-all duration-200 ease-out peer-focus:top-[0.2rem] peer-focus:scale-[0.8] peer-focus:-translate-y-8 peer-focus:text-white peer-placeholder-shown:opacity-100"
               >Nome
@@ -98,7 +96,8 @@ const Contact = ({ slice }: ContactProps): JSX.Element => {
             <input type="email"
                   className="peer block min-h-[auto] w-full rounded border-2 bg-transparent py-[0.32rem] px-3 leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none "
                   id="exampleInput91" 
-                  placeholder=" "/>
+                  placeholder=" "
+                  onChange={handleChange} name="email"/>
             <label
               className="pointer-events-none absolute top-0 left-3 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-white opacity-0 transition-all duration-200 ease-out peer-focus:top-[0.5rem] peer-focus:scale-[0.8] peer-focus:-translate-y-8 peer-focus:text-primary peer-placeholder-shown:opacity-100"
               >Indirizzo e-mail
@@ -107,7 +106,8 @@ const Contact = ({ slice }: ContactProps): JSX.Element => {
           <div className="relative mb-6" data-te-input-wrapper-init>
             <textarea
               className="peer block min-h-[auto] w-full rounded border-2 bg-transparent py-[0.32rem] px-3 leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none rows-3"
-              id="exampleFormControlTextarea1" placeholder=" "></textarea>
+              id="exampleFormControlTextarea1" placeholder=" "
+              onChange={handleChange} name="description"></textarea>
             <label
               className="pointer-events-none absolute top-0 left-3 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-white opacity-0 transition-all duration-200 ease-out peer-focus:top-[0.2rem] peer-focus:scale-[0.8] peer-focus:-translate-y-8 peer-focus:text-primary peer-placeholder-shown:opacity-100">
               Message
@@ -121,11 +121,21 @@ const Contact = ({ slice }: ContactProps): JSX.Element => {
                     Inviami una copia di questo messaggio
                 </label>
             </div>
-            <button type="button"
+            <button type="submit"
                 className="mb-6 w-full rounded bg-white text-yellow-500 px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal   lg:mb-0">
                 Inviare
               </button>
+
+              {emailSent && (
+                <p className="text-center text-gradient font-bold italic text-sm pt-2 mr-6">{message}</p>
+                )}
+                {!emailSent && (
+                <p className="text-center text-red-600 font-bold italic text-sm pt-2 ml-2 mr-6">{message}</p>
+              )}
           </form>
+
+
+
           </div>
           <div className="w-full shrink-0 grow-0 basis-auto lg:w-7/12">
           <div className="flex flex-wrap">
@@ -142,16 +152,16 @@ const Contact = ({ slice }: ContactProps): JSX.Element => {
                 </div>
                 <div className="ml-6 grow">
                   <p className="mb-2 font-bold ">
-                    Technical support
+                    Contatto
                   </p>
                   <p className="text-sm text-slate-100">
-                    <a href="mailto:example@gmail.com" className="text-sm text-slate-100">
-                      example@gmail.com
+                    <a href="mailto:visosobigliettionline@gmail.com" className="text-sm text-slate-100">
+                      visosobigliettionline@gmail.com
                     </a>
                   </p>
-                  <p className="text-sm text-slate-100">
-                    1-600-890-4567
-                  </p>
+                  <a href="tel:+393278072900 text-sm text-slate-100">
+                        +39 3278072900
+                  </a>
                 </div>
               </div>
             </div>
@@ -171,8 +181,8 @@ const Contact = ({ slice }: ContactProps): JSX.Element => {
                     Email
                   </p>
                   <p className="text-sm text-slate-100">
-                    <a href="mailto:example@gmail.com" className="text-sm text-slate-100">
-                      viagogoitalia@gmail.com
+                    <a href="mailto:visosobigliettionline@gmail.com" className="text-sm text-slate-100">
+                      visosobigliettionline@gmail.com
                     </a>
                   </p>
                 </div>
@@ -192,8 +202,8 @@ const Contact = ({ slice }: ContactProps): JSX.Element => {
                 <div className="ml-6 grow">
                   <p className="mb-2 font-bold ">Mobile</p>
                   <p className="text-sm text-slate-100">
-                    <a href="tel:+91123456789" className="text-sm text-slate-100">
-                      +91 123456789
+                    <a href="tel:+393278072900" className="text-sm text-slate-100">
+                      +39 3278072900
                     </a>
                   </p>
                 </div>
@@ -213,7 +223,7 @@ const Contact = ({ slice }: ContactProps): JSX.Element => {
                 </div>
                 <div className="ml-6 grow">
                   <p className="mb-2 font-bold ">Land Line</p>
-                  <p className="text-slate-100"> (0421) 431 2030
+                  <p className="text-slate-100"> +39 3278072900
                   </p>
                 </div>
               </div>
