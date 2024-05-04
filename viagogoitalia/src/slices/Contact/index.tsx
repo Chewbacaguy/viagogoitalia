@@ -139,7 +139,7 @@ const Contact = ({ slice }: ContactProps): JSX.Element => {
           </div>
           <div className="w-full shrink-0 grow-0 basis-auto lg:w-7/12">
           <div className="flex flex-wrap">
-            <div className="mb-12 w-full shrink-0 grow-0 basis-auto md:w-6/12 md:px-3 lg:w-full lg:px-6 xl:w-6/12">
+            <div className="mb-12 w-full shrink-0 grow-0 basis-auto md:w-6/12 md:px-6 lg:w-full lg:px-6 xl:w-6/12">
               <div className="flex items-start">
                 <div className="shrink-0">
                   <div className="inline-block rounded-md bg-white p-4 text-primary">
@@ -153,11 +153,6 @@ const Contact = ({ slice }: ContactProps): JSX.Element => {
                 <div className="ml-6 grow">
                   <p className="mb-2 font-bold ">
                     Contatto
-                  </p>
-                  <p className="text-sm text-slate-100">
-                    <a href="mailto:visosobigliettionline@gmail.com" className="text-sm text-slate-100">
-                      visosobigliettionline@gmail.com
-                    </a>
                   </p>
                   <a href="tel:+393278072900 text-sm text-slate-100">
                         +39 3278072900
@@ -222,9 +217,10 @@ const Contact = ({ slice }: ContactProps): JSX.Element => {
                   </div>
                 </div>
                 <div className="ml-6 grow">
-                  <p className="mb-2 font-bold ">Land Line</p>
-                  <p className="text-slate-100"> +39 3278072900
-                  </p>
+                  <p className="mb-2 font-bold ">Email</p>
+                  <a href="mailto:visosobigliettionline@gmail.com" className="text-sm text-slate-100">
+                      visosobigliettionline@gmail.com
+                    </a>
                 </div>
               </div>
             </div>
