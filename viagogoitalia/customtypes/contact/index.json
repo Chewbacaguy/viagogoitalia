@@ -1,0 +1,68 @@
+{
+  "format": "custom",
+  "id": "contact",
+  "label": "Contact",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Main": {
+      "uid": {
+        "type": "UID",
+        "config": {
+          "label": "UID",
+          "placeholder": ""
+        }
+      },
+      "contact_picture": {
+        "type": "Image",
+        "config": {
+          "label": "Contact Picture",
+          "constraint": {},
+          "thumbnails": []
+        }
+      },
+      "sections": {
+        "type": "Group",
+        "config": {
+          "label": "Sections",
+          "repeat": true,
+          "fields": {
+            "link": {
+              "type": "Link",
+              "config": {
+                "label": "link",
+                "placeholder": "",
+                "select": null
+              }
+            },
+            "label": {
+              "type": "Text",
+              "config": {
+                "label": "Label",
+                "placeholder": ""
+              }
+            },
+            "label2": {
+              "type": "Text",
+              "config": {
+                "label": "Label2",
+                "placeholder": ""
+              }
+            }
+          }
+        }
+      },
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "choices": {
+            "contact": {
+              "type": "SharedSlice"
+            }
+          }
+        }
+      }
+    }
+  }
+}
