@@ -176,8 +176,8 @@ const Contact = ({ slice }: ContactProps): JSX.Element => {
                     Email
                   </p>
                   <p className="text-sm text-slate-100">
-                    <a href="mailto:visosobigliettionline@gmail.com" className="text-sm text-slate-100">
-                      visosobigliettionline@gmail.com
+                    <a href="mailto:viagogobigliettionline@gmail.com" className="text-sm text-slate-100">
+                      viagogobigliettionline@gmail.com
                     </a>
                   </p>
                 </div>
@@ -218,8 +218,8 @@ const Contact = ({ slice }: ContactProps): JSX.Element => {
                 </div>
                 <div className="ml-6 grow">
                   <p className="mb-2 font-bold ">Email</p>
-                  <a href="mailto:visosobigliettionline@gmail.com" className="text-sm text-slate-100">
-                      visosobigliettionline@gmail.com
+                  <a href="mailto:viagogobigliettionline@gmail.com" className="text-sm text-slate-100">
+                        Viagogobigliettionline@gmail.com
                     </a>
                 </div>
               </div>
